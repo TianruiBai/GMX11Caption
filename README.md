@@ -34,6 +34,14 @@ Example build command:
 g++ -O2 -fPIC -shared GMX11caption.cpp -o libgmx11caption.so -lX11
 ```
 
+Or use the included `Makefile`:
+
+```
+make        # builds libgmx11caption.so and a small test program
+make test   # builds/links the test program only
+make clean  # remove build artifacts
+```
+
 This produces `libgmx11caption.so` which you can ship with or load from GameMaker or other programs.
 
 ---
