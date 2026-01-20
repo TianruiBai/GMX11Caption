@@ -1,10 +1,11 @@
 #define gml extern "C" double
 #if defined(__linux__)
 #include <cstring>
+#include <cstdlib>
 #include <X11/Xlib.h>
 #include <X11/Xatom.h>
 #include <X11/Xutil.h>
-gml gmx11_set_caption(const char * caption)
+gml gmx11_set_caption(const char * caption, const char * window_handle)
 {
     Display *display;
     Window root;
@@ -17,7 +18,15 @@ gml gmx11_set_caption(const char * caption)
         return 0;
     }
 
-    root = DefaultRootWindow(display);
+    if (window_handle == NULL) {
+        XCloseDisplay(display);
+        return 0;
+    }
+    unsigned long win_id = strtoul(window_handle, NULL, 0);
+    root = (Window)win_id;
+    if (root == 0) {
+        return 0;
+    }
     
     net_wm_name = XInternAtom(display, "_NET_WM_NAME", False);
     utf8_string = XInternAtom(display, "UTF8_STRING", False);
